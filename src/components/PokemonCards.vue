@@ -28,7 +28,7 @@
         </PokemonCard>
       </div>
     </div>
-    <div class="mt-20 flex justify-center" v-if="evolutionLoading">
+    <div class="mt-20 flex justify-center" v-if="evolutionCardsLoading">
       <LoadingSpinner />
     </div>
   </div>
@@ -41,6 +41,6 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 
 defineProps({
   pokemons: Array,
-  evolutionLoading: Boolean,
+  evolutionCardsLoading: Boolean,
 });
 </script>

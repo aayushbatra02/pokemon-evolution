@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="mainLoading"
+      v-if="mainCardsLoading"
       class="fixed inset-0 flex justify-center items-center"
     >
       <LoadingSpinner />
@@ -9,7 +9,7 @@
     <PokemonCards
       v-else
       :pokemons="pokemons"
-      :evolutionLoading="evolutionLoading"
+      :evolutionCardsLoading="evolutionCardsLoading"
       @showEvolutionHandler="showEvolutionHandler"
     />
   </div>
@@ -22,8 +22,8 @@ import PokemonCards from "@/components/PokemonCards.vue";
 import { onMounted, ref } from "vue";
 
 const pokemons = ref([]);
-let mainLoading = ref(false);
-let evolutionLoading = ref(false);
+const mainCardsLoading = ref(false);
+const evolutionCardsLoading = ref(false);
 
 const fetchPokemon = async (url) => {
   try {
@@ -48,11 +48,13 @@ const showEvolutionHandler = async (id) => {
   const mainPokemons = pokemons.value.filter((pokemon) => !pokemon.evolved);
   pokemons.value = mainPokemons;
   try {
-    evolutionLoading.value = true;
-    const responses = await Promise.all([
-      fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${id + 1}`),
-      fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${id + 2}`),
-    ]);
+    evolutionCardsLoading.value = true;
+    const evolutionIds = [id + 1, id + 2];
+    const responses = await Promise.all(
+      evolutionIds.map((id) =>
+        fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      )
+    );
     const evolvedPokemons = responses.map((pokemon) => {
       pokemon.evolved = true;
       return pokemon;
@@ -61,23 +63,24 @@ const showEvolutionHandler = async (id) => {
   } catch (error) {
     console.error("Error:", error);
   } finally {
-    evolutionLoading.value = false;
+    evolutionCardsLoading.value = false;
   }
 };
 
 onMounted(async () => {
   try {
-    mainLoading.value = true;
-    const responses = await Promise.all([
-      fetchPokemon("https://pokeapi.co/api/v2/pokemon/1"),
-      fetchPokemon("https://pokeapi.co/api/v2/pokemon/4"),
-      fetchPokemon("https://pokeapi.co/api/v2/pokemon/7"),
-    ]);
+    mainCardsLoading.value = true;
+    const pokemonIds = [1, 4, 7];
+    const responses = await Promise.all(
+      pokemonIds.map((id) =>
+        fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      )
+    );
     pokemons.value = responses;
   } catch (error) {
     console.error("Error:", error);
   } finally {
-    mainLoading.value = false;
+    mainCardsLoading.value = false;
   }
 });
 </script>
