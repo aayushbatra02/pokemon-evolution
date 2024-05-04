@@ -18,7 +18,7 @@
 <script setup>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import PokemonCards from "@/components/PokemonCards.vue";
-import { usePokemonFetch } from "@/composables/fetch";
+import { usePokemonFetch } from "@/composables/use-fetch";
 
 const {
   showEvolutionCardsHandler,
