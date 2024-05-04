@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { onMounted, ref } from "vue";
 
-export function useFetch() {
+export function usePokemonFetch() {
   const pokemons = ref([]);
   const cardsLoading = ref(false);
   const evolutionCardsLoading = ref(false);
