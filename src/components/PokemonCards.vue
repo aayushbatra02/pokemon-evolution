@@ -6,7 +6,7 @@
         @click="
           () => {
             if (!pokemon.evolved) {
-              $emit('showEvolutionHandler', pokemon.id);
+              $emit('showEvolutionCardsHandler', pokemon.id);
             }
           }
         "

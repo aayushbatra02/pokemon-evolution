@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="mainCardsLoading"
+      v-if="cardsLoading"
       class="fixed inset-0 flex justify-center items-center"
     >
       <LoadingSpinner />
@@ -10,7 +10,7 @@
       v-else
       :pokemons="pokemons"
       :evolutionCardsLoading="evolutionCardsLoading"
-      @showEvolutionHandler="showEvolutionHandler"
+      @showEvolutionCardsHandler="showEvolutionCardsHandler"
     />
   </div>
 </template>
@@ -22,7 +22,7 @@ import PokemonCards from "@/components/PokemonCards.vue";
 import { onMounted, ref } from "vue";
 
 const pokemons = ref([]);
-const mainCardsLoading = ref(false);
+const cardsLoading = ref(false);
 const evolutionCardsLoading = ref(false);
 
 const fetchPokemon = async (url) => {
@@ -44,9 +44,8 @@ const fetchPokemon = async (url) => {
   }
 };
 
-const showEvolutionHandler = async (id) => {
-  const mainPokemons = pokemons.value.filter((pokemon) => !pokemon.evolved);
-  pokemons.value = mainPokemons;
+const showEvolutionCardsHandler = async (id) => {
+  pokemons.value = pokemons.value.filter((pokemon) => !pokemon.evolved);
   try {
     evolutionCardsLoading.value = true;
     const evolutionIds = [id + 1, id + 2];
@@ -69,7 +68,7 @@ const showEvolutionHandler = async (id) => {
 
 onMounted(async () => {
   try {
-    mainCardsLoading.value = true;
+    cardsLoading.value = true;
     const pokemonIds = [1, 4, 7];
     const responses = await Promise.all(
       pokemonIds.map((id) =>
@@ -80,7 +79,7 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error:", error);
   } finally {
-    mainCardsLoading.value = false;
+    cardsLoading.value = false;
   }
 });
 </script>
