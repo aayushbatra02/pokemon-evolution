@@ -30,12 +30,12 @@ const fetchPokemon = async (url) => {
     const res = await fetch(url);
     if (res.status === 200) {
       const data = await res.json();
-      const pokemonTypes = data.types.map((ele) => ele.type.name);
+      const pokemonTypes = data?.types.map((ele) => ele.type.name);
       const pokemon = {
-        id: data.id,
-        name: data.name,
+        id: data?.id,
+        name: data?.name,
         types: pokemonTypes,
-        image: data.sprites.other["official-artwork"].front_default,
+        image: data?.sprites?.other["official-artwork"]?.front_default,
       };
       return pokemon;
     }
