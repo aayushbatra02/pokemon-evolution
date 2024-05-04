@@ -23,9 +23,12 @@
         </template>
       </component>
     </div>
-    <div class="mt-20 flex justify-center" v-if="evolutionCardsLoading">
-      <LoadingSpinner />
-    </div>
+    <component
+      :is="LoadingSpinner"
+      class="mt-20 flex justify-center"
+      v-if="evolutionCardsLoading"
+    >
+    </component>
   </div>
 </template>
 
